@@ -20,26 +20,48 @@ class BookController {
         }
       }
 
-    async create(req, res){
-      try {
-          const validationErrors = validationResult(req).array();
-          if (validationErrors.length > 0) {
-            return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("Validation failed", validationErrors));
-          }
-      
-          const { title, description, price, discountprice, rating, stock, author, category } = req.body;
-          const Product = await BookModel.create({ title, description, price, discountprice, rating, stock, author, category});
-      
-          if (Product) {
-              return res.status(HTTP_STATUS.CREATED).send(success("Product created successfully", Product));
-            } else {
-              return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Failed to create"));
+
+      async create(req, res) {
+        try {
+            const validation = validationResult(req).array();
+            if (validation.length > 0) {
+                return res
+                    .status(HTTP_STATUS.OK)
+                    .send(failure("Failed to add the product", validation));
+            }
+            const { title, description, price, rating, discountprice, stock, author, category} = req.body;
+
+            const existingProduct = await BookModel.findOne({ title: title });
+
+            if (existingProduct) {
+                return res
+                    .status(HTTP_STATUS.NOT_FOUND)
+                    .send(failure("Book with same title already exists"));
+            }
+
+            const newProduct = await BookModel.create({
+                title: title,
+                description: description,
+                price: price,
+                rating: rating, 
+                discountprice:discountprice, 
+                stock: stock,
+                author:author,
+                category:category,
+
+            });
+        
+            if (newProduct) {
+                return res
+                    .status(HTTP_STATUS.OK)
+                    .send(success("Successfully added product", newProduct));
             }
         } catch (error) {
-          console.log(error);
-          return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
+            console.log(error);
+            return res
+                .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+                .send(failure("Internal server error"));
         }
-  
     }
     
     

@@ -35,26 +35,6 @@ class UserController {
   }
 
 
-  async create(req, res) {
-    try {
-      const validationErrors = validationResult(req).array();
-      if (validationErrors.length > 0) {
-        return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("Validation failed", validationErrors));
-      }
-  
-      const { name, email, address } = req.body;
-      const newUser = await UserModel.create({ name, email, address });
-  
-      if (newUser) {
-        return res.status(HTTP_STATUS.CREATED).send(success("User created successfully", newUser));
-      } else {
-        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Failed to create user"));
-      }
-    } catch (error) {
-      console.log(error);
-      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
-    }
-  }
   
 
 
