@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const ProductRouter = require("./routes/Product");
+const BookRouter = require("./routes/Book.js");
 // const AuthRouter = require("./routes/Auth");
 const dotenv = require("dotenv");
 const databaseConnection = require("./config/database");
@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.text()); 
 app.use(express.urlencoded({ extended: true })); 
 
-app.use("/products", ProductRouter);
+app.use("/books", BookRouter);
 // app.use("/users", UserRouter);
 // app.use("/users", AuthRouter);
 
