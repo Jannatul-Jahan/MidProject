@@ -25,7 +25,11 @@ const bookSchema = new mongoose.Schema({
   category: {
     type: String,
   },
-});
+},
+  { timestamps: true }
+);
+
+
 
 const Book = mongoose.model("Book", bookSchema);
 module.exports = Book;
