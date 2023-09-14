@@ -6,11 +6,12 @@ const { isAuthenticated, isAdmin } = require("../middleware/auth");
 routes.get("/all", BookController.getAll);
 // routes.post("/review/:productId", ProductController.addReview);
 // routes.get("/review/:productId", ProductController.getAllReviews);
-// routes.get("/details/:id", ProductController.getOneById);
+routes.get("/details/:id", BookController.getOneById);
 // routes.get("/search", ProductController.querySearch);
-// routes.delete("/details", ProductController.deleteById);
+routes.delete("/details", isAuthenticated, isAdmin, BookController.deleteById);
 routes.post("/create", isAuthenticated, isAdmin, BookController.create);
 // routes.patch("/details/:id", updateValidation, ProductController.update);
+routes.patch("/details/:id", isAuthenticated, isAdmin, BookController.update);
 
 
 

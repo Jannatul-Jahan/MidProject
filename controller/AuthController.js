@@ -53,6 +53,13 @@ class AuthController{
           }
       
           const { name, email, password, address, role } = req.body;
+
+           // Check if the email is already in use
+          const existingUser = await UserModel.findOne({ email });
+          if (existingUser) {
+            return res.status(HTTP_STATUS.BAD_REQUEST).send(failure("Email is already in use"));
+          }
+
           const hashedPassword = await bcrypt.hash(password, 10);
       
           const newUser = new UserModel({
