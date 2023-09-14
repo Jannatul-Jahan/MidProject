@@ -14,7 +14,7 @@ const AuthSchema = new mongoose.Schema({
   role: {
     type: Number,
     required: false,
-    default:1
+    default:2
   },
   user: {
     type: mongoose.Types.ObjectId,

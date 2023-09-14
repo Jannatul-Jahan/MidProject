@@ -52,7 +52,14 @@ class AuthController{
               .send(failure("Failed to add the user", validation));
           }
       
-          const { name, email, password, address } = req.body;
+          const { name, email, password, address, role } = req.body;
+
+           // Check if the email is already in use
+          const existingUser = await UserModel.findOne({ email });
+          if (existingUser) {
+            return res.status(HTTP_STATUS.BAD_REQUEST).send(failure("Email is already in use"));
+          }
+
           const hashedPassword = await bcrypt.hash(password, 10);
       
           const newUser = new UserModel({
@@ -66,6 +73,7 @@ class AuthController{
           const authData = new AuthModel({
             email: email,
             password: hashedPassword,
+            role: role,
             user: newUser._id, 
           });
       

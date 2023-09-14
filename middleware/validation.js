@@ -27,6 +27,17 @@ const authValidator = {
       .withMessage("Name must be a string")
       .isLength({ max: 30 })
       .withMessage("Name cannot be more than 30 characters"),
+    body("address")
+      .exists()
+      .withMessage("Address was not provided")
+      .bail()
+      .notEmpty()
+      .withMessage("Address cannot be empty")
+      .bail()
+      .isString()
+      .withMessage("Address must be a string")
+      .isLength({ max: 30 })
+      .withMessage("Name cannot be more than 30 characters"),
 
   ],
   login:[
@@ -48,4 +59,17 @@ const authValidator = {
 
 
 
-module.exports = { authValidator};
+const cartValidator = {
+    addItemToCart: [
+      body("user")
+        .exists()
+        .withMessage("UserId was not provided"),
+      body("products")
+        .exists()
+        .withMessage("BookId was not provided"),
+    ],
+  };
+  
+
+
+module.exports = { authValidator, cartValidator};

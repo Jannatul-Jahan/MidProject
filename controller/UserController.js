@@ -34,8 +34,53 @@ class UserController {
     }
   }
 
+  async deleteById(req, res) {
+    try {
+      const { id } = req.params;
+      const deletedUser = await UserModel.findByIdAndDelete(id);
 
-  
+      if (deletedUser) {
+        return res.status(HTTP_STATUS.OK).send(success("Successfully deleted the user", deletedUser));
+      } else {
+        return res.status(HTTP_STATUS.NOT_FOUND).send(failure("User not found"));
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
+    }
+  }
+
+  async updateById(req, res) {
+    try {
+      const { id } = req.params;
+      const { name, rank, email, status } = req.body;
+
+      const updatedUser = await UserModel.findByIdAndUpdate(
+        id,
+        { name, rank, email, status },
+        { new: true } 
+      );
+
+      if (updatedUser) {
+        return res.status(HTTP_STATUS.OK).send(success("Successfully updated the user", updatedUser));
+      } else {
+        return res.status(HTTP_STATUS.NOT_FOUND).send(failure("User not found"));
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
+    }
+  }
+
+  async deleteAll(req, res) {
+    try {
+      await UserModel.deleteMany({});
+      return res.status(HTTP_STATUS.OK).send(success("Successfully deleted all users"));
+    } catch (error) {
+      console.log(error);
+      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
+    }
+  }
 
 
 }

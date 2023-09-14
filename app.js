@@ -4,6 +4,7 @@ const app = express();
 const BookRouter = require("./routes/Book");
 const UserRouter = require("./routes/User");
 const AuthRouter = require("./routes/Auth");
+const CartRouter = require("./routes/Cart");
 const dotenv = require("dotenv");
 const databaseConnection = require("./config/database");
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/books", BookRouter);
 app.use("/users", UserRouter);
 app.use("/users", AuthRouter);
+app.use("/cart", CartRouter);
 
 
 databaseConnection(() => {

@@ -5,9 +5,9 @@ const UserController = require("../controller/UserController");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
 routes.get("/all", isAuthenticated, isAdmin, UserController.getAll);
-// routes.get("/detail/:id", UserController.getOneById);
-// routes.delete("/delete/:id", UserController.deleteById);
-// routes.patch("/update/:id", UserController.updateById);
-// routes.delete("/delete-all", UserController.deleteAll);
+routes.get("/detail/:id", isAuthenticated, isAdmin, UserController.getOneById);
+routes.delete("/delete/:id", isAuthenticated, isAdmin, UserController.deleteById);
+routes.patch("/update/:id", isAuthenticated, isAdmin, UserController.updateById);
+routes.delete("/delete-all", isAuthenticated, isAdmin, UserController.deleteAll);
 
 module.exports = routes;
