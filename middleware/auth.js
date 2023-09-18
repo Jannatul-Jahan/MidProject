@@ -56,6 +56,24 @@ const isUser = (req, res, next) => {
     }
 };
 
+const isSpecificUser = (req, res, next) => {
+    try {
+        const jwt = req.headers.authorization.split(" ")[1];
+        const validate = jsonwebtoken.decode(jwt);
+        const requestBodyUserId = req.body.user;
+
+        if (validate.user._id=== requestBodyUserId) {
+            next();
+        } else {
+            return res.status(HTTP_STATUS.UNAUTHORIZED).send(failure("Unauthorized access"));
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Something went wrong"));
+    }
+};
 
 
-module.exports = { isAuthenticated, isAdmin, isUser };
+
+
+module.exports = { isAuthenticated, isAdmin, isUser, isSpecificUser };

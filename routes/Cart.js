@@ -1,12 +1,11 @@
 const express = require("express");
 const routes = express();
 const CartController = require("../controller/CartController");
-const { isAuthenticated, isUser } = require("../middleware/auth");
+const { isAuthenticated, isUser, isSpecificUser} = require("../middleware/auth");
 const { cartValidator } = require("../middleware/validation");
 
-// routes.get("/all", CartController.getAll);
-// routes.get("/:id", CartController.getById);
-routes.post("/create", cartValidator.addItemToCart, isAuthenticated, isUser, CartController.addToCart);
-//routes.patch("/remove", CartController.removeFromCart);
+routes.get("/getbyId", isAuthenticated, isUser, isSpecificUser, CartController.getById);
+routes.post("/add", cartValidator.addItemToCart, isAuthenticated, isUser, isSpecificUser, CartController.addToCart);
+routes.patch("/remove", isAuthenticated, isUser, isSpecificUser, CartController.removeFromCart);
 
 module.exports = routes;

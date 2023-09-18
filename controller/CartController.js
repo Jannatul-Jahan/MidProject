@@ -6,6 +6,24 @@ const Product = require("../model/Book");
 const HTTP_STATUS = require("../constants/statusCodes");
 
 class CartController {
+  async getById(req, res) {
+    try {
+      const { user } = req.body; 
+  
+      const userCart = await CartModel.findOne({ user: user }).populate("products.product"); 
+      
+      if (!userCart) {
+        return res.status(HTTP_STATUS.NOT_FOUND).send(failure("User's cart not found"));
+      }
+  
+      return res.status(HTTP_STATUS.OK).send(success("Successfully received user's cart", { result: userCart }));
+    } catch (error) {
+      console.log(error);
+      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
+    }
+  }
+
+
     async addToCart(req, res) {
         try {
           const validationErrors = validationResult(req).array();
