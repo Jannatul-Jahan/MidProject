@@ -5,6 +5,7 @@ const BookRouter = require("./routes/Book");
 const UserRouter = require("./routes/User");
 const AuthRouter = require("./routes/Auth");
 const CartRouter = require("./routes/Cart");
+const ReviewRouter = require("./routes/Review");
 const DiscountRouter = require("./routes/Discount");
 const dotenv = require("dotenv");
 const databaseConnection = require("./config/database");
@@ -21,6 +22,7 @@ app.use("/users", UserRouter);
 app.use("/users", AuthRouter);
 app.use("/cart", CartRouter);
 app.use("/discounts", DiscountRouter);
+app.use("/reviews", ReviewRouter);
 
 
 databaseConnection(() => {

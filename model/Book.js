@@ -25,6 +25,18 @@ const bookSchema = new mongoose.Schema({
   category: {
     type: String,
   },
+  averageRating: {
+    type: Number,
+    default: 0, // Initialize to 0
+},
+totalRatings: {
+    type: Number,
+    default: 0, // Initialize to 0
+},
+reviews: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Review',
+}],
 },
   { timestamps: true }
 );
