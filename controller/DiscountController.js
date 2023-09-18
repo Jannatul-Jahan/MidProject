@@ -18,6 +18,8 @@ class DiscountController {
             endTime,
          });
 
+         
+
         // Save the discount record to the database
          await discount.save();
 
@@ -29,21 +31,11 @@ class DiscountController {
 
            // Calculate the discounted price and update the books
          for (const book of books) {
-             const originalPrice = book.price;
-             const discountedPrice = originalPrice - (originalPrice * discountPercent) / 100;
-             book.discountprice = discountedPrice;
+             book.discountPercentage = discountPercent;
+             book.startTime = startTime;
+             book.endTime = endTime;
              await book.save();
             }
-
-         // Set a timeout to remove the discount price when the discount period ends
-        //  setTimeout(async () => {
-        //     await Discount.findByIdAndDelete(discount._id);
-        //     for (const book of books) {
-        //         book.discountprice = undefined;
-        //         await book.save();
-        //     }
-        //       }, endTime - Date.now());
-
             return res.status(HTTP_STATUS.OK).send(success("Successfully updated the discountprice"));
          } catch (error) {
             console.error(error);
@@ -76,9 +68,9 @@ class DiscountController {
       
             // Calculate the discounted price and update the books
             for (const book of books) {
-              const originalPrice = book.price;
-              const discountedPrice = originalPrice - (originalPrice * discountPercent) / 100;
-              book.discountprice = discountedPrice;
+              book.discountPercentage = discountPercent;
+              book.startTime = startTime;
+              book.endTime = endTime;
               await book.save();
             }
       
