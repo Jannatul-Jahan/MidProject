@@ -13,8 +13,14 @@ const bookSchema = new mongoose.Schema({
   rating: {
     type: Number,
   },
-  discountprice: {
+  discountPercentage: {
     type: Number,
+  },
+  startTime: {
+    type: Date,
+  },
+  endTime: {
+    type: Date,
   },
   stock: {
     type: Number,
