@@ -40,7 +40,8 @@ class UserController {
   async getOneById(req, res) {
     try {
       const { id } = req.params;
-      const user = await UserModel.findById({ _id: id });
+      
+      const user = await UserModel.findById(id);
       if (user) {
         return res.status(HTTP_STATUS.OK).send(success("Successfully received the user", user));
       } else {
@@ -56,7 +57,6 @@ class UserController {
     try {
       const { id } = req.params;
   
-      // Find the user by ID to check their role
       const user = await UserModel.findById(id);
   
       const auth = await AuthModel.findOne({ user }).populate("user");

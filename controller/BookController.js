@@ -149,9 +149,10 @@ class BookController {
     
     async getOneById(req, res){
         try{
-          const {id} = req.params;
-          const books = await BookModel.getOneById(id);
-          if(books.success){
+          const { id } = req.params;
+          const books = await BookModel.findById(id);
+          
+          if(books){
             return res.status(200).send(success("Successfully received the product", books));
           } else{
             return res.status(400).send(failure("Failed to receive the product"));
@@ -161,35 +162,43 @@ class BookController {
         }
       }
     
-    async deleteById(req, res) {
+      async deleteById(req, res) {
         try {
           const { id } = req.query;
-          const products = await BookModel.deleteById(id);
-          if (products.success) {
+
+          const products = await BookModel.findByIdAndDelete(id);
+          
+          if (products) {
             return res.status(200).send(success("Successfully deleted the product"));
           } else {
             return res.status(401).send(failure("Product couldn't be found!"));
           }
         } catch (error) {
+          console.log(error);
           return res.status(500).send(failure("Internal server error!"));
         }
       }
+    
+    
 
-    async update(req, res){
-        try{
-          const {id} = req.params;
-          const updatedProductData = req.body;
-            
-          const products = await BookModel.update(id, updatedProductData);
-          if(products.success){
-            return res.status(200).send(success("Successfully updated the product", products));
-          } else{
-            return res.status(402).send(failure("Failed to update the product"));
-          }
-        } catch(error){
-          return res.status(500).send(failure("Internal server error!"));
+      async update(req, res) {
+        try {
+            const { id } = req.params;
+            const updatedProductData = req.body;
+    
+            const updatedProduct = await BookModel.findByIdAndUpdate(id, updatedProductData, { new: true });
+    
+            if (updatedProduct) {
+                return res.status(HTTP_STATUS.OK).send(success("Successfully updated the product", updatedProduct));
+            } else {
+                return res.status(HTTP_STATUS.NOT_FOUND).send(failure("Product not found"));
+            }
+        } catch (error) {
+            console.log(error);
+            return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
         }
-      }
+    }
+    
   }
   
   module.exports = new BookController();
