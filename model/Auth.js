@@ -4,11 +4,11 @@ const AuthSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Emails was not provided"],
+    unique: true,
     maxLength: 30,
   },
   password: {
     type: String,
-    unique: true,
     required: [true, "Password was not provided"],
   },
   role: {
