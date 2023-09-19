@@ -8,17 +8,34 @@ class UserController {
   async getAll(req, res) {
     try {
       const users = await UserModel.find({});
-      if (users.length > 0) {
-        return res
-          .status(HTTP_STATUS.OK)
-          .send(success("Successfully received all users", { result: users, total: users.length }));
+      
+      if (users) {
+        if (users.length > 0) {
+                return res.status(HTTP_STATUS.OK).send(success("Successfully received all users", { result: users, total: users.length }));
+              }
+         return res.status(HTTP_STATUS.OK).send(success("No users were found"));
+      } else {
+        return res.status(HTTP_STATUS.BAD_REQUEST).send(failure("Failed to filter user's data"));
       }
-      return res.status(HTTP_STATUS.OK).send(success("No users were found"));
     } catch (error) {
       console.log(error);
       return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
     }
   }
+  // async getAll(req, res) {
+  //   try {
+  //     const users = await UserModel.find({});
+  //     if (users.length > 0) {
+  //       return res
+  //         .status(HTTP_STATUS.OK)
+  //         .send(success("Successfully received all users", { result: users, total: users.length }));
+  //     }
+  //     return res.status(HTTP_STATUS.OK).send(success("No users were found"));
+  //   } catch (error) {
+  //     console.log(error);
+  //     return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
+  //   }
+  // }
 
   async getOneById(req, res) {
     try {

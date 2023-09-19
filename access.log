@@ -1,0 +1,41 @@
+::ffff:127.0.0.1 - - [19/Sep/2023:04:32:55 +0000] "POST /users/login HTTP/1.1" 200 748 "-" "PostmanRuntime/7.33.0"
+::ffff:127.0.0.1 - - [19/Sep/2023:04:33:18 +0000] "POST /users/login HTTP/1.1" 200 62 "-" "PostmanRuntime/7.33.0"
+POST /users/login 200 62 - 884.356 ms
+POST /users/login 200 748 - 817.541 ms
+POST /users/login 200 62 - 726.039 ms
+POST /users/login 200 62 - 812.326 ms
+POST /users/login 200 62 - 806.428 ms -
+POST /users/login 200 62 - 785.059 ms
+POST /users/login 200 748 - 732.222 ms
+POST /users/login 200 62 - 739.892 ms
+POST /users/login 401 68 - 318.316 ms
+POST /users/login 500 40 - Unexpected end of JSON input - 10.659 ms
+POST /users/login 500 53 - Unexpected token } in JSON at position 65 - 6.300 ms
+POST /users/login 401 68 - 311.819 ms
+POST /users/llogin 404 152 - 2.370 ms
+POST /useris/login 404 152 - 1.923 ms
+POST /users/login 401 68 - 360.321 ms
+POST /users/login 401 68 - 440.387 ms
+POST /users/login 401 68 - 376.765 ms
+POST /users/login 200 748 - 1171.130 ms
+POST /users/login 200 730 - 937.672 ms
+GET /users/all 400 68 - 480.960 ms
+GET /users/all 200 404 - 649.621 ms
+POST /users/all 404 149 - 19.566 ms
+GET /users/aljl 404 149 - 3.435 ms
+GET /users/all 200 404 - 398.226 ms
+GET /users/all 200 404 - 370.992 ms
+POST /users/all 404 15 - 18.762 ms
+GET /users/allj 404 15 - 1.832 ms
+GET /users/all 200 404 - 307.763 ms
+GET /users/all 400 31 - 3.606 ms
+GET /users/all 200 404 - 349.890 ms
+POST /users/all 404 58 - 24.492 ms
+GET /users/alll 404 58 - 2.006 ms
+GET /users/alll 400 60 - 2.900 ms
+GET /users/alll 404 58 - 8.396 ms
+POST /users/login 200 730 - 848.466 ms
+GET /users/all 200 404 - 321.273 ms
+POST /users/all 404 58 - 4.888 ms
+POST /users/all 400 60 - 2.803 ms
+POST /users/all 400 60 - 1.069 ms
