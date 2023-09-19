@@ -56,7 +56,7 @@ class CartController {
             
           }
         
-          console.log(product.startTime);
+        
           let DiscountPercentage = 0;
           const now = new Date();
           if (product.startTime && product.endTime && (now > product.startTime && now < product.endTime)) {
@@ -160,76 +160,78 @@ class CartController {
       return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
     }
   }
-  
-
-        
-      async removeFromCart(req, res) {
-        try {
-          const validationErrors = validationResult(req).array();
-          if (validationErrors.length > 0) {
-            return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("Validation failed", validationErrors));
-          }
-      
-          const { user, products } = req.body;
-      
-          // Check if the user already exists in the database
-          const existingUser = await Cart.findOne({ user });
-      
-          if (existingUser) {
-            // User exists, update the cart
-      
-            const productDocuments = await Promise.all(products.map(async (item) => {
-              const product = await Book.findById(item.product).select("-thumbnails");
-      
-              const price = parseFloat(product.price);
-              const quantity = parseInt(item.quantity, 10);
-      
-              if (isNaN(price) || isNaN(quantity)) {
-                console.log("Invalid price or quantity:", price, quantity);
-              }
-      
-              const productPrice = price * quantity;
-      
-              if (product.stock < quantity) {
-                throw new Error(`Not enough stock for product: ${product.title}`);
-              }
-      
-              // Check if the product already exists in the user's cart
-              const existingProduct = existingUser.products.find(p => p.product.equals(product._id));
-              
-              if (existingProduct) {
-                if (existingProduct.quantity < quantity) {
-                  
-                  console.log("stock is less");
-                } else {
-                  // Product exists in the cart, update the quantity and price
-                  existingProduct.quantity -= quantity;
-                  existingUser.total -= productPrice;
-                }
-              } else {
-                console.log("product not found");
-              }
-      
-              return {
-                product: product._id,
-                quantity: existingProduct.quantity,
-                price: existingUser.total, 
-              };
-            }));
-      
-            const updatedCart = await existingUser.save();
-      
-            return res.status(HTTP_STATUS.OK).send(success("Cart updated successfully", updatedCart));
-          } else {
-            return res.status(HTTP_STATUS.NOT_FOUND).send(failure("Cart not found"));
-          }
-        } catch (error) {
-          console.log(error);
-          return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
-        }
+    
+  async removeFromCart(req, res) {
+    try {
+      const validationErrors = validationResult(req).array();
+      if (validationErrors.length > 0) {
+        return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("Validation failed", validationErrors));
       }
-      
-   
+  
+      const { user, products } = req.body;
+  
+      // Check if the user already exists in the database
+      const existingUser = await Cart.findOne({ user });
+  
+      if (existingUser) {
+        // User exists, update the cart
+  
+        const productDocuments = await Promise.all(products.map(async (item) => {
+          const product = await Product.findById(item.product).select("-thumbnails");
+  
+          const price = parseFloat(product.price);
+          const discount = parseInt(product.discountPercentage);
+          const quantity = parseInt(item.quantity, 10);
+  
+          if (isNaN(price) || isNaN(quantity)) {
+            console.log("Invalid price or quantity:", price, quantity);
+          }
+  
+          let DiscountPercentage = 0;
+          const now = new Date();
+         
+          if (product.startTime && product.endTime && (now > product.startTime && now < product.endTime)) {
+            DiscountPercentage = discount;
+          }
+
+          const discountedPrice = price * (1 - DiscountPercentage / 100);
+          const productPrice = discountedPrice * quantity;
+  
+  
+          if (product.stock < quantity) {
+            throw new Error(`Not enough stock for product: ${product.title}`);
+          }
+  
+          // Check if the product already exists in the user's cart
+          const existingProduct = existingUser.products.find(p => p.product.equals(product._id));
+          
+        
+            if (existingProduct.quantity >= quantity) {
+              
+              // Product exists in the cart, update the quantity and price
+              existingProduct.quantity -= quantity;
+              existingUser.total -= productPrice;}
+           
+  
+          return {
+            product: product._id,
+            quantity: existingProduct.quantity,
+            price: existingUser.total, 
+          };
+        }));
+  
+        const updatedCart = await existingUser.save();
+
+        return res.status(HTTP_STATUS.OK).send(success("Cart updated successfully", updatedCart));
+      } else {
+        return res.status(HTTP_STATUS.NOT_FOUND).send(failure("Cart not found"));
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
+    }
+  }
+  
 
 }
 

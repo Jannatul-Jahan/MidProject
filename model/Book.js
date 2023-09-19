@@ -10,9 +10,6 @@ const bookSchema = new mongoose.Schema({
   price: {
     type: Number,
   },
-  rating: {
-    type: Number,
-  },
   discountPercentage: {
     type: Number,
   },
@@ -31,15 +28,15 @@ const bookSchema = new mongoose.Schema({
   category: {
     type: String,
   },
-  averageRating: {
+  rating: {
     type: Number,
     default: 0, // Initialize to 0
-},
-totalRatings: {
+ },
+  totalRatings: {
     type: Number,
     default: 0, // Initialize to 0
-},
-reviews: [{
+ },
+  reviews: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Review',
 }],

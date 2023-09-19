@@ -29,15 +29,16 @@ class ReviewController {
         });
 
         await newReview.save();
+        
 
         // Update the book's average rating and total ratings
         book.reviews.push(newReview._id);
         book.totalRatings += rating;
 
         if (book.reviews.length > 0) {
-          book.averageRating = book.totalRatings / book.reviews.length;
+          book.rating = book.totalRatings / book.reviews.length;
         } else {
-          book.averageRating = 0;
+          book.rating = 0;
         }
 
         await book.save();
@@ -75,9 +76,9 @@ class ReviewController {
 
           // Recalculate the averageRating
           if (book.reviews.length > 0) {
-            book.averageRating = book.totalRatings / book.reviews.length;
+            book.rating = book.totalRatings / book.reviews.length;
           } else {
-            book.averageRating = 0;
+            book.rating = 0;
           }
 
           await book.save();
@@ -116,11 +117,11 @@ class ReviewController {
         // Update the book's totalRatings and averageRating
         if (book.reviews.length > 0) {
           book.totalRatings -= existingReview.rating;
-          book.averageRating = book.totalRatings / book.reviews.length;
+          book.rating = book.totalRatings / book.reviews.length;
         } else {
           // No more reviews for the book, reset totalRatings and averageRating
           book.totalRatings = 0;
-          book.averageRating = 0;
+          book.rating = 0;
         }
   
         // Delete the review from the Review collection
