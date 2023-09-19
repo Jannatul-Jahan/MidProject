@@ -7,6 +7,8 @@ const AuthRouter = require("./routes/Auth");
 const CartRouter = require("./routes/Cart");
 const ReviewRouter = require("./routes/Review");
 const DiscountRouter = require("./routes/Discount");
+const TransactionRouter = require("./routes/Transaction");
+const BalanceRouter = require("./routes/Balance");
 const dotenv = require("dotenv");
 const databaseConnection = require("./config/database");
 
@@ -22,7 +24,10 @@ app.use("/users", UserRouter);
 app.use("/users", AuthRouter);
 app.use("/cart", CartRouter);
 app.use("/discounts", DiscountRouter);
+app.use("/transactions", TransactionRouter);
 app.use("/reviews", ReviewRouter);
+app.use("/balance", BalanceRouter);
+
 
 
 databaseConnection(() => {
