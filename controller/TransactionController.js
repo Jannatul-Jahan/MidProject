@@ -70,7 +70,7 @@ class TransactionController {
           const price = parseFloat(product.price);
 
 
-          // Calculate the discount percentage based on the current time
+        
           let discountPercentage = 0;
           const now = new Date();
           if (
@@ -82,14 +82,15 @@ class TransactionController {
             discountPercentage = product.discountPercentage;
           }
   
-          // Calculate the discounted price and product price
+          
           const discountedPrice = price * (1 - discountPercentage / 100);
           const productPrice = discountedPrice * quantity;
           
           
   
           if (product.stock < quantity) {
-            throw new Error(`Not enough stock for product: ${product.title}`);
+            //throw new Error(`Not enough stock for product: ${product.title}`);
+            return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("Not enough stock for product"));
           }
   
           stockUpdates.push({
@@ -107,14 +108,14 @@ class TransactionController {
             .send(failure("Invalid total price"));
         }
   
-        // Fetch the user's balance from the database
+    
         const userBalance = await Balance.findOne({ user });
   
         if (!userBalance || userBalance.balance < total) {
           return res.status(HTTP_STATUS.BAD_REQUEST).send(failure("Insufficient balance"));
         }
   
-        // Deduct the total price from the user's balance
+        
         userBalance.balance -= total;
         await userBalance.save();
   
@@ -126,7 +127,7 @@ class TransactionController {
           total: total,
         });
   
-        // Save the transaction to the database
+        
         await transaction.save();
         return res.status(HTTP_STATUS.CREATED).send(success("Transaction successful"));
       } catch (error) {

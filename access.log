@@ -283,3 +283,10 @@ POST /users/login 200 730 - 823.781 ms
 POST /discounts/create 422 172 - 6.547 ms
 POST /discounts/create 422 82 - 6.188 ms
 POST /discounts/create 200 72 - 1005.931 ms
+GET /discounts/all 200 1027 - 331.887 ms
+POST /users/login 200 730 - 838.540 ms
+POST /cart/add 200 248 - 1077.920 ms
+POST /cart/add 500 64 - 678.435 ms
+POST /cart/add 500 59 - 689.730 ms
+POST /cart/add 500 64 - 687.405 ms
+POST /cart/add 200 248 - 1028.040 ms
