@@ -150,7 +150,10 @@ const cartValidator = {
         .withMessage("Discount percentage was not provided")
         .bail()
         .isNumeric()
-        .withMessage('Discount percentage must be a numeric value'),
+        .withMessage('Discount percentage must be a numeric value')
+        .bail()
+        .isInt({  max: 100 })
+        .withMessage('Discount percent must not exit 100'),
       body("startTime")
         .exists()
         .withMessage("startTime was not provided"),

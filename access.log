@@ -275,3 +275,6 @@ GET /books/all?page=1&limit=1 200 529 - 339.180 ms
 GET /books/all?page=8&limit=1 200 386 - 316.174 ms
 GET /books/all 200 2913 - 322.200 ms
 GET /books/details/6502ab4e2a6e185cf939bafb 200 649 - 319.468 ms
+GET /books/details/6502ab4e2a6e185cf939bafb 200 959 - 718.642 ms
+POST /users/login 200 730 - 840.774 ms
+POST /discounts/create 422 162 - 10.126 ms
