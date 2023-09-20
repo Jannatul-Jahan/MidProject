@@ -122,7 +122,7 @@ class TransactionController {
         const transaction = new TransactionModel({
           cart: userCart._id,
           user: user,
-          product: userCart.products, // Assuming userCart.products matches the Transaction schema
+          product: userCart.products, 
           total: total,
         });
   

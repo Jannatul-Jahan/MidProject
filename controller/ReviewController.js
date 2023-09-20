@@ -104,7 +104,6 @@ class ReviewController {
           book.totalRatings -= existingReview.rating;
           book.rating = book.totalRatings / book.reviews.length;
         } else {
-          // No more reviews for the book, reset totalRatings and averageRating
           book.totalRatings = 0;
           book.rating = 0;
         }
@@ -124,7 +123,7 @@ class ReviewController {
 
   async getAllReviews(req, res) {
     try {
-      //const bookId = req.params.bookId; // Correct the variable name
+      //const bookId = req.params.bookId; 
       const { bookId } = req.body
       const book = await Book.findById(bookId).populate('reviews');
 
