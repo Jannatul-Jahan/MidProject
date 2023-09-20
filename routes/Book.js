@@ -4,6 +4,7 @@ const BookController = require("../controller/BookController");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 const { bookValidator } = require("../middleware/validation");
 
+routes.get("/total", BookController.totalAll);
 routes.get("/all", BookController.getAll);
 routes.get("/details/:id", BookController.getOneById);
 routes.post("/create", isAuthenticated, isAdmin, bookValidator.addItemToBook, BookController.create);

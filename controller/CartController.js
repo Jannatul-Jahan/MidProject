@@ -41,7 +41,10 @@ class CartController {
       
         const productDocuments = await Promise.all(products.map(async (item) => {
           const product = await Product.findById(item.product).select("-thumbnails");
-      
+
+          if (!product) {
+            return res.status(HTTP_STATUS.BAD_REQUEST).send(failure("Product id not found"));
+          }
           const price = parseFloat(product.price);
           const discount = parseInt(product.discountPercentage);
           const quantity = parseInt(item.quantity, 10);
@@ -113,6 +116,10 @@ class CartController {
   
         const productDocuments = await Promise.all(products.map(async (item) => {
           const product = await Product.findById(item.product).select("-thumbnails");
+
+          if (!product) {
+            return res.status(HTTP_STATUS.BAD_REQUEST).send(failure("Product id not found"));
+          }
   
           const price = parseFloat(product.price);
           const discount = parseInt(product.discountPercentage);

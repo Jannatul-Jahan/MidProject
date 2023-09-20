@@ -74,21 +74,107 @@ const cartValidator = {
     addItemToBook: [
       body("title")
         .exists()
-        .withMessage("Title was not provided"),
+        .withMessage("Title was not provided")
+        .bail()
+        .isString()
+        .withMessage("Password must be a string"),
       body("price")
         .exists()
-        .withMessage("Price was not provided"),
+        .withMessage("Price was not provided")
+        .bail()
+        .isNumeric()
+        .withMessage('Price must be a numeric value'),
       body("stock")
         .exists()
-        .withMessage("Stock was not provided"),
+        .withMessage("Stock was not provided")
+        .bail()
+        .isNumeric()
+        .withMessage('Stock must be a numeric value'),
       body("category")
         .exists()
-        .withMessage("Category was not provided"),
+        .withMessage("Category was not provided")
+        .bail()
+       .isString()
+       .withMessage("Password must be a string"),
+    ],
+  };
+
+  const reviewValidator= {
+    addReview: [
+      body("user")
+        .exists()
+        .withMessage("User was not provided"),
+      body("bookId")
+        .exists()
+        .withMessage("BookId was not provided"),
+      body("rating")
+        .exists()
+        .withMessage("Rating was not provided")
+        .bail()
+        .isNumeric()
+        .withMessage('Rating must be a numeric value'),
+      body("comment")
+        .exists()
+        .withMessage("Comment was not provided")
+        .bail()
+        .isString()
+        .withMessage("Comment must be a string"),
+    ],
+  };
+
+  const balanceValidator= {
+    addBalance: [
+      body("user")
+        .exists()
+        .withMessage("User was not provided"),
+      body("balance")
+        .exists()
+        .withMessage("Balance was not provided")
+        .bail()
+        .isNumeric()
+        .withMessage('Balance must be a numeric value'),
     ],
   };
 
 
+  const discountValidator= {
+    addDiscount: [
+      body("productId")
+        .exists()
+        .withMessage("productId was not provided"),
+      body("discountPercent")
+        .exists()
+        .withMessage("Discount percentage was not provided")
+        .bail()
+        .isNumeric()
+        .withMessage('Discount percentage must be a numeric value'),
+      body("startTime")
+        .exists()
+        .withMessage("startTime was not provided"),
+      body("endTime")
+        .exists()
+        .withMessage("endTime was not provided"),
+    ],
+    updateDiscount: [
+      body("discountId")
+        .exists()
+        .withMessage("Discount id was not provided"),
+      body("discountPercent")
+        .exists()
+        .withMessage("Discount percentage was not provided")
+        .bail()
+        .isNumeric()
+        .withMessage('Discount percentage must be a numeric value'),
+      body("startTime")
+        .exists()
+        .withMessage("startTime was not provided"),
+      body("endTime")
+        .exists()
+        .withMessage("endTime was not provided"),
+    ],
+  };
+
   
 
 
-module.exports = { authValidator, cartValidator, bookValidator};
+module.exports = { authValidator, cartValidator, bookValidator, reviewValidator, balanceValidator, discountValidator};
