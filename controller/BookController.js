@@ -5,20 +5,21 @@ const BookModel = require("../model/Book");
 const HTTP_STATUS = require("../constants/statusCodes");
 
 class BookController {
-    // async getAll(req, res) {
-    //     try {
-    //       const books = await BookModel.find({});
-    //       if (books.length > 0) {
-    //         return res
-    //           .status(HTTP_STATUS.OK)
-    //           .send(success("Successfully received all books", { result: books, total: books.length }));
-    //       }
-    //       return res.status(HTTP_STATUS.OK).send(success("No data found"));
-    //     } catch (error) {
-    //       console.log(error);
-    //       return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
-    //     }
-    //   }
+    async totalAll(req, res) {
+        try {
+          const books = await BookModel.find({});
+          if (books.length > 0) {
+            return res
+              .status(HTTP_STATUS.OK)
+              .send(success("Successfully received all books", { result: books, total: books.length }));
+          }
+          return res.status(HTTP_STATUS.OK).send(success("No data found"));
+        } catch (error) {
+          console.log(error);
+          return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Internal server error"));
+        }
+      }
+
     async getAll(req, res) {
         try {
           const page = parseInt(req.query.page) || 1;

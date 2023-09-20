@@ -7,6 +7,10 @@ const HTTP_STATUS = require("../constants/statusCodes");
 class ReviewController {
   async addReview(req, res) {
     try {
+      const validationErrors = validationResult(req).array();
+        if (validationErrors.length > 0) {
+          return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("Validation failed", validationErrors));
+        }
       const { user, bookId, rating, comment } = req.body;
 
       const existingReview = await Review.findOne({ user, bookId });
@@ -53,36 +57,17 @@ class ReviewController {
 
   async updateReview(req, res) {
     try {
-      const { user, bookId, rating, comment } = req.body;
+      const validationErrors = validationResult(req).array();
+      if (validationErrors.length > 0) {
+        return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("Validation failed", validationErrors));
+      }
+      const { user, bookId, comment } = req.body;
 
       const existingReview = await Review.findOne({ user, bookId });
 
       if (existingReview) {
-        const previousRating = existingReview.rating; // Store the previous rating
-        existingReview.rating = rating;
         existingReview.comment = comment;
         await existingReview.save();
-
-        if (previousRating !== rating) {
-          // If the rating has been updated, update the book's totalRatings and averageRating
-          const book = await Book.findById(bookId);
-
-          if (!book) {
-            return res.status(HTTP_STATUS.NOT_FOUND).send(failure('Book not found'));
-          }
-
-          // Calculate the new totalRatings by subtracting the previous rating and adding the updated rating
-          book.totalRatings = book.totalRatings - previousRating + rating;
-
-          // Recalculate the averageRating
-          if (book.reviews.length > 0) {
-            book.rating = book.totalRatings / book.reviews.length;
-          } else {
-            book.rating = 0;
-          }
-
-          await book.save();
-        }
 
         return res.status(HTTP_STATUS.OK).send(success('Review updated successfully'));
       }
