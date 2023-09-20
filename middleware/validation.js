@@ -83,7 +83,10 @@ const cartValidator = {
         .withMessage("Price was not provided")
         .bail()
         .isNumeric()
-        .withMessage('Price must be a numeric value'),
+        .withMessage('Price must be a numeric value')
+        .bail()
+        .isInt({ min: 1 })
+        .withMessage('Price must be 1 or more than 1'),
       body("stock")
         .exists()
         .withMessage("Stock was not provided")
