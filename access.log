@@ -270,3 +270,8 @@ POST /users/login 200 730 - 767.042 ms
 POST /cart/add 201 248 - 997.856 ms
 PATCH /cart/remove 500 64 - 664.412 ms
 PATCH /cart/remove 200 248 - 927.875 ms
+PATCH /cart/remove 200 248 - 1030.902 ms
+GET /books/all?page=1&limit=1 200 529 - 339.180 ms
+GET /books/all?page=8&limit=1 200 386 - 316.174 ms
+GET /books/all 200 2913 - 322.200 ms
+GET /books/details/6502ab4e2a6e185cf939bafb 200 649 - 319.468 ms
