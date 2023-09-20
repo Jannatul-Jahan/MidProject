@@ -112,7 +112,10 @@ const cartValidator = {
         .withMessage("Rating was not provided")
         .bail()
         .isNumeric()
-        .withMessage('Rating must be a numeric value'),
+        .withMessage('Rating must be a numeric value')
+        .bail()
+        .isInt({ min: 1, max: 10 })
+        .withMessage('Rating must be between 1 and 10'),
       body("comment")
         .exists()
         .withMessage("Comment was not provided")
