@@ -219,7 +219,7 @@ class CartController {
               
               // Product exists in the cart, update the quantity and price
               existingProduct.quantity -= quantity;
-              existingUser.total -= productPrice;}
+              existingUser.total -= productPrice;} else{ console.log("stock is less");}
            
   
           return {

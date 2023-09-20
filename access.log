@@ -264,3 +264,9 @@ POST /cart/add 201 248 - 1065.378 ms
 POST /cart/add 500 64 - 647.029 ms
 POST /cart/add 500 59 - 706.186 ms
 POST /cart/add 500 64 - 2355.759 ms
+POST /users/login 200 730 - 1098.433 ms
+POST /reviews/add 422 160 - 10.997 ms
+POST /users/login 200 730 - 767.042 ms
+POST /cart/add 201 248 - 997.856 ms
+PATCH /cart/remove 500 64 - 664.412 ms
+PATCH /cart/remove 200 248 - 927.875 ms
