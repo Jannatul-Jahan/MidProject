@@ -229,3 +229,4 @@ POST /users/sign-up 200 69 - 1977.300 ms
 GET /reviews/byId/6502ab4e2a6e185cf939bafb 404 58 - 5.296 ms
 GET /reviews/byId/6502ab4e2a6e185cf939bafb 404 58 - 1.423 ms
 GET /reviews/byId 200 122 - 654.457 ms
+GET /reviews/byId 200 432 - 785.822 ms

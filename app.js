@@ -73,7 +73,6 @@ app.use((err, req, res, next) => {
 app.use((err, req, res, next) => {
   console.error(err);
   return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure({ error: req.error }));
-  //res.status(500).json({ error: req.error });
 });
 
 databaseConnection(() => {
