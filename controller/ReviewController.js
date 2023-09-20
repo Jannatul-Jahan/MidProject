@@ -124,9 +124,9 @@ class ReviewController {
 
   async getAllReviews(req, res) {
     try {
-      const bookId = req.params.bookId; // Correct the variable name
-
-      const book = await Book.findById(bookId).populate('reviews.user');
+      //const bookId = req.params.bookId; // Correct the variable name
+      const { bookId } = req.body
+      const book = await Book.findById(bookId).populate('reviews');
 
       if (!book) {
         return res.status(HTTP_STATUS.NOT_FOUND).send(failure('Book not found'));
