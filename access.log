@@ -279,3 +279,7 @@ GET /books/details/6502ab4e2a6e185cf939bafb 200 959 - 718.642 ms
 POST /users/login 200 730 - 840.774 ms
 POST /discounts/create 422 162 - 10.126 ms
 POST /discounts/create 422 172 - 39.154 ms
+POST /users/login 200 730 - 823.781 ms
+POST /discounts/create 422 172 - 6.547 ms
+POST /discounts/create 422 82 - 6.188 ms
+POST /discounts/create 200 72 - 1005.931 ms
