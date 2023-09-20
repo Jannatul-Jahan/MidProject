@@ -250,3 +250,17 @@ PATCH /cart/remove 200 248 - 1235.905 ms
 PATCH /cart/remove 200 246 - 1157.015 ms
 GET /books/details/6509682376bc524181feef41 400 72 - 335.544 ms
 GET /books/details/6502ab4e2a6e185cf939bafb 200 649 - 329.225 ms
+POST /users/login 401 68 - 1406.142 ms
+POST /users/login 200 62 - 1384.592 ms
+POST /users/login 200 730 - 1373.389 ms
+POST /users/login 200 730 - 784.615 ms
+POST /books/create 404 78 - 328.068 ms
+PATCH /books/update/650a543732f7d61719d5883a 401 56 - 12.646 ms
+POST /users/login 200 730 - 790.011 ms
+PATCH /books/update/650a543732f7d61719d5883a 200 575 - 359.141 ms
+PATCH /books/update/650a543732f7d61719d5883a 200 575 - 329.928 ms
+POST /users/login 200 730 - 808.598 ms
+POST /cart/add 201 248 - 1065.378 ms
+POST /cart/add 500 64 - 647.029 ms
+POST /cart/add 500 59 - 706.186 ms
+POST /cart/add 500 64 - 2355.759 ms
