@@ -56,6 +56,7 @@ class CartController {
           
           if (product.stock < quantity) {
             throw new Error(`Not enough stock for product: ${product.title}`);
+            //return res.status(HTTP_STATUS.BAD_REQUEST).send(failure("Not enough stock"));
             
           }
         
@@ -140,6 +141,7 @@ class CartController {
   
           if (product.stock < quantity) {
             throw new Error(`Not enough stock for product: ${product.title}`);
+            //return res.status(HTTP_STATUS.BAD_REQUEST).send(failure("Not enough stock"));
           }
   
           return {
@@ -217,7 +219,7 @@ class CartController {
               
               // Product exists in the cart, update the quantity and price
               existingProduct.quantity -= quantity;
-              existingUser.total -= productPrice;}
+              existingUser.total -= productPrice;} else{ console.log("stock is less");}
            
   
           return {

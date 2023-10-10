@@ -151,7 +151,7 @@ class BookController {
     async getOneById(req, res){
         try{
           const { id } = req.params;
-          const books = await BookModel.findById(id);
+          const books = await BookModel.findById(id).populate("reviews");
           
           if(books){
             return res.status(200).send(success("Successfully received the product", books));

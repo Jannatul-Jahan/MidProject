@@ -31,6 +31,9 @@ class DiscountController {
           return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("Validation failed", validationErrors));
         }
             const { productId, discountPercent, startTime, endTime } = req.body;
+            if (endTime < startTime) {
+              return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("End time cannot be less than start time"));
+            }
 
             // Create a new discount record
          const discount = new Discount({
@@ -73,6 +76,9 @@ class DiscountController {
             return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("Validation failed", validationErrors));
           }
             const { discountId, discountPercent, startTime, endTime } = req.body;
+            if (endTime < startTime) {
+              return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(failure("End time cannot be less than start time"));
+            }
       
             // Find the discount record by ID
             const discount = await Discount.findById(discountId);

@@ -83,13 +83,18 @@ const cartValidator = {
         .withMessage("Price was not provided")
         .bail()
         .isNumeric()
-        .withMessage('Price must be a numeric value'),
+        .withMessage('Price must be a numeric value')
+        .bail()
+        .isInt({ min: 1 })
+        .withMessage('Price must be 1 or more than 1'),
       body("stock")
         .exists()
         .withMessage("Stock was not provided")
         .bail()
         .isNumeric()
-        .withMessage('Stock must be a numeric value'),
+        .withMessage('Stock must be a numeric value')
+        .isInt({ min: 1 })
+        .withMessage('Price must be 1 or more than 1'),
       body("category")
         .exists()
         .withMessage("Category was not provided")
@@ -112,7 +117,10 @@ const cartValidator = {
         .withMessage("Rating was not provided")
         .bail()
         .isNumeric()
-        .withMessage('Rating must be a numeric value'),
+        .withMessage('Rating must be a numeric value')
+        .bail()
+        .isInt({ min: 1, max: 10 })
+        .withMessage('Rating must be between 1 and 10'),
       body("comment")
         .exists()
         .withMessage("Comment was not provided")
@@ -132,7 +140,10 @@ const cartValidator = {
         .withMessage("Balance was not provided")
         .bail()
         .isNumeric()
-        .withMessage('Balance must be a numeric value'),
+        .withMessage('Balance must be a numeric value')
+        .bail()
+        .isInt({ min:1 })
+        .withMessage('Balance must be  1 or more'),
     ],
   };
 
@@ -147,7 +158,10 @@ const cartValidator = {
         .withMessage("Discount percentage was not provided")
         .bail()
         .isNumeric()
-        .withMessage('Discount percentage must be a numeric value'),
+        .withMessage('Discount percentage must be a numeric value')
+        .bail()
+        .isInt({ min:1,  max: 80 })
+        .withMessage('Discount percent must be between 1 to 80'),
       body("startTime")
         .exists()
         .withMessage("startTime was not provided"),
@@ -164,7 +178,10 @@ const cartValidator = {
         .withMessage("Discount percentage was not provided")
         .bail()
         .isNumeric()
-        .withMessage('Discount percentage must be a numeric value'),
+        .withMessage('Discount percentage must be a numeric value')
+        .bail()
+        .isInt({  min:1, max: 80 })
+        .withMessage('Discount percent must be between 1 to 80'),
       body("startTime")
         .exists()
         .withMessage("startTime was not provided"),
