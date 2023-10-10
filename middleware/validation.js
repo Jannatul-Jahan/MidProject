@@ -92,7 +92,9 @@ const cartValidator = {
         .withMessage("Stock was not provided")
         .bail()
         .isNumeric()
-        .withMessage('Stock must be a numeric value'),
+        .withMessage('Stock must be a numeric value')
+        .isInt({ min: 1 })
+        .withMessage('Price must be 1 or more than 1'),
       body("category")
         .exists()
         .withMessage("Category was not provided")
@@ -138,7 +140,10 @@ const cartValidator = {
         .withMessage("Balance was not provided")
         .bail()
         .isNumeric()
-        .withMessage('Balance must be a numeric value'),
+        .withMessage('Balance must be a numeric value')
+        .bail()
+        .isInt({ min:1 })
+        .withMessage('Balance must be  1 or more'),
     ],
   };
 
@@ -155,8 +160,8 @@ const cartValidator = {
         .isNumeric()
         .withMessage('Discount percentage must be a numeric value')
         .bail()
-        .isInt({  max: 100 })
-        .withMessage('Discount percent must not exit 100'),
+        .isInt({ min:1,  max: 80 })
+        .withMessage('Discount percent must be between 1 to 80'),
       body("startTime")
         .exists()
         .withMessage("startTime was not provided"),
@@ -175,8 +180,8 @@ const cartValidator = {
         .isNumeric()
         .withMessage('Discount percentage must be a numeric value')
         .bail()
-        .isInt({  max: 100 })
-        .withMessage('Discount percent must not exit 100'),
+        .isInt({  min:1, max: 80 })
+        .withMessage('Discount percent must be between 1 to 80'),
       body("startTime")
         .exists()
         .withMessage("startTime was not provided"),
