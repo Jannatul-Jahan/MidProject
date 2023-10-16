@@ -11,10 +11,10 @@ const authValidator = {
     body("password")
       .exists()
       .withMessage("Password must be provided")
-      .bail()
-      .isString()
-      .withMessage("Password must be a string")
-      .bail().isStrongPassword({minLength : 8, minLowercase: 1, minUppercase: 1, minSymbols:1, minNumbers:1})
+      // .bail()
+      // .isString()
+      // .withMessage("Password must be a string")
+      .bail().isStrongPassword({minLength : 6, maxLength:20, minLowercase: 1, minUppercase: 1, minSymbols:1, minNumbers:1})
       .withMessage("the password need to contain at least 8 characters, with a minimum of 1 lower case, 1 upper case, 1 number, and 1 symbol."),
     body("name")
       .exists()
@@ -25,8 +25,8 @@ const authValidator = {
       .bail()
       .isString()
       .withMessage("Name must be a string")
-      .isLength({ max: 30 })
-      .withMessage("Name cannot be more than 30 characters"),
+      .isLength({ min: 6, max: 20 })
+      .withMessage("Name must be 6 to 20 characters"),
     body("address")
       .exists()
       .withMessage("Address was not provided")

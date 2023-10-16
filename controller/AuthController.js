@@ -5,7 +5,12 @@ const UserModel = require("../model/User");
 const HTTP_STATUS = require("../constants/statusCodes");
 const bcrypt = require("bcrypt");
 const jsonwebtoken = require("jsonwebtoken");
-
+const crypto = require("crypto");
+const { promisify } = require("util");
+const ejs = require("ejs");
+const ejsRenderFile = promisify(ejs.renderFile);
+const path = require("path");
+const transporter = require("../config/mail");
 
 class AuthController{ 
   async login(req, res) {
@@ -54,7 +59,6 @@ class AuthController{
       
           const { name, email, password, address, role } = req.body;
 
-           // Check if the email is already in use
           const existingUser = await UserModel.findOne({ email });
           if (existingUser) {
             return res.status(HTTP_STATUS.BAD_REQUEST).send(failure("Email is already in use"));
@@ -86,6 +90,100 @@ class AuthController{
             .send(failure("Internal server error"));
         }
       }
+
+      async sendForgotPasswordEmail(req, res) {
+        try {
+          const { email } = req.body;
+          if (!email || email === "") {
+            return res
+              .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
+              .send(failure("Recipient email was not provided"));
+          }
+    
+          const auth = await AuthModel.findOne({ email: email }).populate("user");
+    
+          if (!auth) {
+            return res.status(HTTP_STATUS.NOT_FOUND).send(failure("User not found"));
+          }
+    
+          const resetToken = crypto.randomBytes(32).toString("hex");
+    
+          auth.resetPasswordToken = resetToken;
+          auth.resetPasswordExpire = Date.now() + 3600000;
+          auth.resetPassword = true;
+    
+          await auth.save();
+    
+          const resetURL = path.join(process.env.FRONTEND_URL,"users", "reset-password", resetToken, auth._id.toString());
+
+          const htmlBody = await ejsRenderFile(path.join(__dirname, "..", "views", "forget-password.ejs"), {
+            name: auth.user.name,
+            resetURL: resetURL,
+          });
+    
+          const result = await transporter.sendMail({
+            from: "my-app@system.com",
+            to: `${auth.user.name} ${email}`,
+            subject: "Password Reset Request",
+            html: htmlBody,
+          });
+    
+          return res.status(HTTP_STATUS.OK).send(success("Successfully requested for resetting password"));
+        } catch (error) {
+          console.log(error);
+          return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Something went wrong!"));
+        }
+      }
+    
+      async resetPassword(req, res) {
+        try {
+          const { token, userId, newPassword, confirmPassword } = req.body;
+      
+          const auth = await AuthModel.findOne({ user: userId });
+          if (!auth) {
+            return res.status(HTTP_STATUS.NOT_FOUND).send(failure("Invalid request"));
+          }
+      
+          if (newPassword !== confirmPassword) {
+            return res.status(HTTP_STATUS.BAD_REQUEST).send(failure("Password and confirm password do not match"));
+          }
+    
+          const hashedPassword = await bcrypt.hash(newPassword, 10);
+      
+          auth.password = hashedPassword;
+          auth.resetPassword = false;
+          await auth.save();
+      
+          return res.status(HTTP_STATUS.OK).send(success("Password updated successfully"));
+        } catch (error) {
+          console.log(error);
+          return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Something went wrong!"));
+        }
+      }
+      
+      async validatePasswordResetRequest(req, res) {
+        try {
+          const { token, userId } = req.params;
+      
+          const auth = await AuthModel.findOne({ user: userId });
+          if (!auth) {
+            return res.status(HTTP_STATUS.NOT_FOUND).send(failure("Invalid request"));
+          }
+      
+          if (auth.resetPasswordExpire < Date.now()) {
+            return res.status(HTTP_STATUS.GONE).send(failure("Expired request"));
+          }
+      
+          if (auth.resetPasswordToken !== token || auth.resetPassword === false) {
+            return res.status(HTTP_STATUS.UNAUTHORIZED).send(failure("Invalid token"));
+          }
+          return res.status(HTTP_STATUS.OK).send(success("Request is still valid"));
+        } catch (error) {
+          console.log(error);
+          return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(failure("Something went wrong!"));
+        }
+      }
+      
       
 }
 

@@ -9,8 +9,10 @@ const HTTP_STATUS = require("../constants/statusCodes");
 class BalanceController {
   async check(req, res) {
     try {
-      const { user } = req.body; 
+      //const { user } = req.body; 
+      const { user } = req.params;
       const balance = await Balance.find({ user: user });
+      console.log(balance.length);
       if (balance.length > 0) {
         return res
           .status(HTTP_STATUS.OK)

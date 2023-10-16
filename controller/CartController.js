@@ -8,8 +8,9 @@ const HTTP_STATUS = require("../constants/statusCodes");
 class CartController {
   async getById(req, res) {
     try {
-      const { user } = req.body; 
-  
+       //const { user } = req.body; 
+      const { user } = req.params;
+      console.log(user);
       const userCart = await Cart.findOne({ user: user }).populate("products.product"); 
       
       if (!userCart) {

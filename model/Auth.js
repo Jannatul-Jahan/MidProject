@@ -20,9 +20,24 @@ const AuthSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "User",
   },
+  resetPassword:{
+    type: Boolean||null,
+    required: false,
+    default: false,
+  },
+  resetPasswordToken:{
+    type: String||null,
+    required: false,
+    default: null,
+  },
+  resetPasswordExpire:{
+    type: Date||null,
+    required: false,
+    default: null,
+  },
 },
   {
-    timestamps: true, // Add timestamps option here
+    timestamps: true, 
   });
   
 const Auth = mongoose.model("Auth", AuthSchema);
